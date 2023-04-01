@@ -1,20 +1,26 @@
-import { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+// import { useState, useEffect } from "react";
+import { Route, Routes } from "react-router";
+import NavBar from "./NavBar.js"
+import Home from "./Home.js"
+import Login from "./Login.js"
+import SignUp from "./SignUp.js"
+// import Users from "./Users.js"
+// import Characters from "./Characters.js
+// import Templates from "./Templates.js"
+
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
 
   return (
     <div className="App">
+      <NavBar />
       <Routes>
-        <Route path="/testing" element={<h1>Test Route</h1>} />
-        <Route path="/" element={<h1>Page Count: {count}</h1>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/users/*" element={<Users />} />
+        <Route path="/characters/*" element={<Characters />} />
+        <Route path="/templates/*" element={<Templates />} /> */}
       </Routes>
     </div>
   );
