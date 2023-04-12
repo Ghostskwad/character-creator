@@ -1,4 +1,4 @@
-// import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -7,6 +7,8 @@ function Login({ setUser }){
     const [username, setUserName] = useState("")
     const [password, setPassword] = useState("")
     
+    let navigate = useNavigate()
+
     const handleSubmit = (e) => {
         e.preventDefault()
         axios.post('/login', {username: username, password: password}).then(res => {
@@ -15,9 +17,9 @@ function Login({ setUser }){
             .then(user => setUser(user))
         }
     })
+        navigate('/')   
         setUserName("")
         setPassword("")
-        // redirect('/characters?')
     }
 
     const handleUsername = (e) => {
