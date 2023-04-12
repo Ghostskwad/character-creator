@@ -1,13 +1,21 @@
 class CharactersController < ApplicationController
-    before_action :set_character
+    before_action :set_character, only: [:destroy]
 
     def index
-        @character = User.find
+        @character = @current_user.characters
+        render json: @character
     end
 
-    def show
+    def create
+        @character = Character.new(character_params)
+        @character.save!
+        render json: @character, status: :created
+      end    
 
-    end
+    def destroy
+        @character.destroy!
+        head :no_content
+      end
 
 
 
