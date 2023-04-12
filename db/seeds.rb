@@ -4,9 +4,9 @@ Template.destroy_all
 Character.destroy_all
 
 puts "🌱 Seeding Users..."
-u1 = User.create(name: "Jonathon")
-u2 = User.create(name: "Sheena")
-u3 = User.create(name: "Quade")
+u1 = User.create(username: "Sheena", password: "1234")
+u2 = User.create(username: "Quade", password: "1234")
+u3 = User.create(username: "Quinn", password: "1234")
 
 puts "🧝 Seeding Templates..."
 t1 = Template.create(level: rand(1..10), constitution: rand(1..20), strength: rand(1..20), intelligence: rand(1..20), charisma: rand(1..20), wisdom: rand(1..20), dexterity: rand(1..20), class_name: "Barbarian", race: "Human", spell1: nil, spell2: nil, ability1: "Rage", ability2: "Reckless Attack", weapon1: "Two-handed Axe", weapon2: nil, img_url: "https://i.pinimg.com/originals/33/df/b4/33dfb4b28e6d6cfa454a91b277a3cc75.png")
