@@ -7,7 +7,7 @@ class UsersController < ApplicationController
         end
     
         def create  
-            user = User.create(user_params)
+            user = User.new(user_params)
             user.save
             session[:user_id] = user.id #connects the session for the user to the new user id 
             render json: user, status: :created
