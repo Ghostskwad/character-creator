@@ -1,0 +1,2 @@
+class RoguesController < ApplicationController
+end

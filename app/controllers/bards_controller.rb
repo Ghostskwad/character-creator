@@ -1,0 +1,2 @@
+class BardsController < ApplicationController
+end

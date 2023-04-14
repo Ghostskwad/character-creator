@@ -1,0 +1,2 @@
+class BarbariansController < ApplicationController
+end
