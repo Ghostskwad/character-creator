@@ -1,0 +1,2 @@
+class DruidsController < ApplicationController
+end
