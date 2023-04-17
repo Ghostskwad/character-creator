@@ -7,8 +7,8 @@ class CharactersController < ApplicationController
     def index
         # Get all characters belonging to the current user
         @character = @current_user.characters
-        # Render the characters in JSON format
-        render json: @character
+        # Render the characters in JSON format with a "ok" status code 200
+        render json: @character, status: :ok
     end
 
     # POST /characters
@@ -44,16 +44,16 @@ class CharactersController < ApplicationController
         # Save the new character to the database
         @character.save!
         
-        # Render the new character in JSON format with a "created" status code
+        # Render the new character in JSON format with a "created" status code 201
         render json: @character, status: :created
     end    
 
-    # DELETE /characters/:id
-    def destroy
+    # DELETE /characters/:id 
+    def destroy 
         # Delete the character with the given ID
         @character.destroy!
         
-        # Send a "no content" status code
+        # Send a "no content" status code 204
         head :no_content
     end
 
