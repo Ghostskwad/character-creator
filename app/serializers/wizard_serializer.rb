@@ -1,3 +1,3 @@
 class WizardSerializer < ActiveModel::Serializer
-  attributes :id, :class_name, :constitution, :strength, :intelligence, :charisma, :wisdom, :dexterity
+  attributes :constitution, :strength, :intelligence, :charisma, :wisdom, :dexterity
 end
