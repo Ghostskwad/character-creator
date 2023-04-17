@@ -1,6 +1,6 @@
 class Barbarian < ApplicationRecord
     # Define associations
-    has_many :characters, as: :character_class, dependent: :destroy
+    has_many :characters, as: :character_class
     has_many :users, through: :characters
     
     # Set constants
