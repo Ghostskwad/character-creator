@@ -1,41 +1,52 @@
 import React from "react"
 import {Link, useNavigate} from "react-router-dom"
-import axios from 'axios'
+// import axios from 'axios'
 
 function NavBar({ setUser, user }){
-const navigate = useNavigate()
-
+    const navigate = useNavigate()
+    
+    // const handleLogout = () => {
+    //     axios.delete('/logout').then(res => {
+    //         if (res.ok) {
+    //             setUser("")
+    //         }
+    //     })
+    //     navigate('/')
+    // }
+    
+    console.log(user)
     const handleLogout = () => {
-        axios.delete('/logout').then(res => {
+        fetch('/logout', {
+            method: 'DELETE'
+        })
+        .then(res => {
             if (res.ok) {
-                setUser("")
+                setUser(null)
             }
         })
         navigate('/')
     }
 
-
-
     return(
-        <div>
-                { user ?
-                (<nav>
+        <nav>
+                {user ?
+                (<div className="nav">
                     <Link to="/">Home</Link>
 
                     <Link to="/characters">My Profile</Link>
 
                     <button onClick={handleLogout}>Logout</button>
-                </nav>)
+                </div>)
                 :
-                (<nav>
+                (<div className="nav">
                     <Link to="/">Home</Link>
 
                     <Link to="/signup">Sign Up</Link>
 
                     <Link to="/login">Login In</Link> 
-                </nav>)
+                </div>)
                 }
-        </div>
+        </nav>
     )
 }
 
