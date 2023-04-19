@@ -4,7 +4,7 @@ import axios from 'axios'
 
 function Login({ setUser }){
 
-    const [username, setUserName] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     
     let navigate = useNavigate()
@@ -18,12 +18,12 @@ function Login({ setUser }){
         }
     })
         navigate('/')   
-        setUserName("")
+        setUsername("")
         setPassword("")
     }
 
     const handleUsername = (e) => {
-        setUserName(e.target.value)
+        setUsername(e.target.value)
     }
 
     const handlePassword = (e) => {
