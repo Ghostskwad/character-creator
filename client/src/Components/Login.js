@@ -17,7 +17,7 @@ function Login({ setUser }){
             .then(user => setUser(user))
         }
     })
-        navigate('/')   
+    navigate('/characters')   
         setUsername("")
         setPassword("")
     }

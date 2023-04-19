@@ -4,9 +4,7 @@ import NavBar from "./NavBar.js"
 import Home from "./Home.js"
 import Login from "./Login.js"
 import SignUp from "./SignUp.js"
-// import Users from "./Users.js"
-// import Characters from "./Characters.js"
-// import Templates from "./Templates.js"
+import Characters from "./Characters.js"
 
 function App() {
 
@@ -24,14 +22,12 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar setUser={setUser} user={user} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login user={user} setUser={setUser} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp setUser={setUser} />} />
-        {/* <Route path="/users/*" element={<Users />} />  */}
-        {/* <Route path="/characters/*" element={<Characters />} /> */}
-        {/* <Route path="/templates/*" element={<Templates />} /> */}
+        <Route path="/characters" element={<Characters />} />
       </Routes>
     </div>
   );
