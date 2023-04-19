@@ -11,6 +11,7 @@ import SignUp from "./SignUp.js"
 function App() {
 
   const [user, setUser] = useState(null)
+
   useEffect(() => {
     fetch('/me')
     .then(res => {
@@ -27,7 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login user={user} setUser={setUser} />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp setUser={setUser} />} />
         {/* <Route path="/users/*" element={<Users />} />  */}
         {/* <Route path="/characters/*" element={<Characters />} /> */}
         {/* <Route path="/templates/*" element={<Templates />} /> */}
