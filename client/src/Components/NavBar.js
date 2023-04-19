@@ -14,7 +14,7 @@ function NavBar({ setUser, user }){
     //     navigate('/')
     // }
     
-    console.log(user)
+    
     const handleLogout = () => {
         fetch('/logout', {
             method: 'DELETE'
@@ -31,11 +31,12 @@ function NavBar({ setUser, user }){
         <nav>
                 {user ?
                 (<div className="nav">
+                    <button className="nav" onClick={handleLogout}>Logout</button>
+                    
                     <Link to="/">Home</Link>
 
                     <Link to="/characters">My Profile</Link>
 
-                    <button onClick={handleLogout}>Logout</button>
                 </div>)
                 :
                 (<div className="nav">
