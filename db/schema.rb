@@ -82,6 +82,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_205310) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "templates", force: :cascade do |t|
+    t.integer "level"
+    t.string "class_name"
+    t.string "race"
+    t.string "img_url"
+    t.integer "strength"
+    t.integer "dexterity"
+    t.string "constitution"
+    t.string "integer"
+    t.integer "intelligence"
+    t.integer "wisdom"
+    t.integer "charisma"
+    t.string "spell1"
+    t.string "spell2"
+    t.string "ability1"
+    t.string "ability2"
+    t.string "weapon1"
+    t.string "weapon2"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "password_digest", null: false

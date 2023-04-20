@@ -1,27 +1,37 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 
 function Login({ setUser }){
-
+    
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState()
     
     let navigate = useNavigate()
-
+    
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('/login', {username: username, password: password}).then(res => {
+        fetch('/login', {
+            method: 'POST',
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({username: username, password: password})
+        })
+        .then(res => {
             if (res.ok) {
-            res.json()
-            .then(user => setUser(user))
-        }
-    })
-        navigate('/')   
+                res.json()
+        .then(user => setUser(user))
+        navigate('/characters')   
+            } else {
+                res.json()
+                .then(json => setErrors(json.error))
+            }
+        })
         setUsername("")
         setPassword("")
     }
-
+    
+    
     const handleUsername = (e) => {
         setUsername(e.target.value)
     }
@@ -50,6 +60,8 @@ function Login({ setUser }){
                     value={password}
                     onChange={handlePassword}
                 />
+                <br />
+                { errors ? <label className="errors" >{errors}</label> : null }
                 <br/>
                 <button type="submit">Login</button>
             </form>

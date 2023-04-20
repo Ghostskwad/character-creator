@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
         render json: user
       else
         # Renders an error response with a 401 unauthorized status if the user cannot be authenticated
-        render json: { error: ["Invalid password or username"]}, status: :unauthorized
+        render json: { error: ["Invalid password or username. Please try again."]}, status: :unauthorized
       end
     end
   
