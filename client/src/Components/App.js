@@ -5,7 +5,7 @@ import NavBar from "./NavBar.js"
 import Home from "./Home.js"
 import Login from "./Login.js"
 import SignUp from "./SignUp.js"
-import Characters from "./Characters.js"
+import CharacterList from "./CharacterList.js"
 
 function App() {
 
@@ -19,7 +19,6 @@ function App() {
   //       }
   //     })      
   //   }, [])
-  
 
   useEffect(() => {
     fetch('/me')
@@ -38,7 +37,7 @@ function App() {
         <Route path="/" element={<Home user={user} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp setUser={setUser} />} />
-        <Route path="/characters" element={<Characters />} />
+        <Route path="/characters" element={<CharacterList />} />
       </Routes>
     </div>
   );
