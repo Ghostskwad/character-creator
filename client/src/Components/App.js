@@ -6,6 +6,7 @@ import Home from "./Home.js"
 import Login from "./Login.js"
 import SignUp from "./SignUp.js"
 import CharacterList from "./CharacterList.js"
+import CreateChars from "./CreateChars.js";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp setUser={setUser} />} />
         <Route path="/characters" element={<CharacterList />} />
+        <Route path="/create_character" element={<CreateChars />} />
       </Routes>
     </div>
   );

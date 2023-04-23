@@ -10,7 +10,7 @@ class CharactersController < ApplicationController
 
         # Checks to see if a character exists with the current user
         if @character.blank? === true
-            # if no character exists, return the render_not_found message
+            # If no character exists, return the render_not_found message
             render_not_found_response
         else
         # Render the characters in JSON format with a "ok" status code 200
@@ -79,9 +79,9 @@ end
     # Error handling callback methods
     def render_unprocessable_entity_response(invalid)
         render json: { errors: invalid.record.errors }, status: :unprocessable_entity
-      end
-  
-      def render_not_found_response
+    end
+
+    def render_not_found_response
         render json: { error: "Character not found" }, status: :not_found
-      end
+    end
 end
