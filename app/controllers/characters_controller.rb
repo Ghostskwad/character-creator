@@ -7,9 +7,16 @@ class CharactersController < ApplicationController
     def index
         # Get all characters belonging to the current user
         @character = @current_user.characters
+
+        # Checks to see if a character exists with the current user
+        if @character.blank? === true
+            # if no character exists, return the render_not_found message
+            render_not_found_response
+        else
         # Render the characters in JSON format with a "ok" status code 200
         render json: @character, status: :ok
     end
+end
 
     # POST /characters
     def create

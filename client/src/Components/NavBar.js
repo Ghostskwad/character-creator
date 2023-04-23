@@ -33,9 +33,9 @@ function NavBar({ setUser, user }){
                 (<div className="nav">
                     <button className="nav" onClick={handleLogout}>Logout</button>
                     
-                    <Link to="/">Home</Link>
-
                     <Link to="/characters">My Profile</Link>
+
+                    <Link to="/">Home</Link>
 
                 </div>)
                 :
