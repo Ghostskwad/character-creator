@@ -1,14 +1,7 @@
 function CharacterCard ({char}) {
-    
+
     return (
         <div>
-            <h2>Character Card is in here.</h2>
-            { char.length === 0 ? 
-                <div>
-                    <h2>Whoops! You don't have any characters yet!</h2>
-                    <p>Let's go ahead and make one here.</p>
-                </div>
-            :
                 <div>
                     <h3>{char.name}</h3>
                     <h5>{char.character_class_type}</h5>
@@ -21,7 +14,7 @@ function CharacterCard ({char}) {
                         <li>Charisma: {char.stats.charisma}</li>
                         <li>Wisdom: {char.stats.wisdom}</li>
                     </p>
-                </div> }
+                </div>
         </div>
     )
 }
