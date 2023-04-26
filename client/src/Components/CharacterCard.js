@@ -1,6 +1,8 @@
 import { useLocation } from "react-router-dom"
 
+// component that renders the details of a single character
 function CharacterCard () {
+    // useLocation hook to access the state passed in from CharacterList component and save it to a variable
     const { state } = useLocation()
     const character = state.character
 
@@ -23,4 +25,5 @@ function CharacterCard () {
     )
 }
 
+// export the CharacterCard component as default
 export default CharacterCard

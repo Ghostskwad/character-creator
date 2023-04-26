@@ -9,19 +9,22 @@ import CharacterList from "./CharacterList.js"
 import CharacterCard from "./CharacterCard.js";
 import CreateChars from "./CreateChars.js";
 
+// Parent component for the application
 function App() {
 
-  const [user, setUser] = useState(null)
+   // state hook to store user data
+   const [user, setUser] = useState(null)
 
-  useEffect(() => {
-      axios.get('/me').then(res => {
-        if (res.status === 200) {
-          setUser(res.data)
-        }
-      })      
-    }, [])
-    console.log(user)
+   // useEffect hook to fetch user data on component mount using Axios API
+   useEffect(() => {
+       axios.get('/me').then(res => {
+         if (res.status === 200) {
+           setUser(res.data)
+         }
+       })      
+     }, [])
 
+  // HTTP request using Fetch API for comparison in process
   // useEffect(() => {
   //   fetch('/me')
   //   .then(res => {
@@ -47,4 +50,5 @@ function App() {
   );
 }
 
+// export the App component as default
 export default App;
