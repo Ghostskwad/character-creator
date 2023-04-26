@@ -1,35 +1,38 @@
 import { useState, useEffect } from 'react'
-import CharacterCard from './CharacterCard'
+import { useNavigate } from 'react-router-dom'
 import CreateChars from './CreateChars'
+import axios from 'axios'
 // import CreateChars from './CreateChars'
 
 function CharacterList(){
-
     const [characters, setCharacters] = useState([])
     const [errors, setErrors] = useState()
-    // console.log(characters)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('/characters')
+       axios.get('/characters')
             .then(res => {
-                if (res.ok) {
-                    res.json()
-            .then(characters => setCharacters(characters)) 
+                if (res.status === 200) {
+                    setCharacters(res.data)
                 } else {
-                    res.json()
-                .then(json => setErrors(json.error))
+                    setErrors(res.data.errors)
                 }
+            })
+            .catch(error => {
+                console.log(error)
             })
     }, []) 
 
-    // console.log(errors)
-    // const displayChars = characters.map(
-    //         char => <CharacterCard key={char.id} char={char} />
-    //     )
-
-    // const addNewChar = (newChar) => {
-    //     setCharacters([...characters, newChar])
-    // }
+    const handleClick = (character) => {
+        navigate("/${character.id}/${character.name}", {state: {character}})
+    }
+    const displayChars = characters.map(
+        (character) => (
+            <div key={character.id} onClick={() => handleClick(character)}>
+                <h1>{character.name}</h1>
+                <h2>{character.character_class_type}</h2>
+            </div>
+        ))
 
     return(
         <div>
@@ -38,7 +41,7 @@ function CharacterList(){
                 :
                 ( <div>
                     <h1>All Characters of User displayed here.</h1>
-                    {/* {displayChars} */}
+                    {displayChars}
                 </div> )
             }
         </div>
