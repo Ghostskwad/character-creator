@@ -1,18 +1,22 @@
-function CharacterCard ({char}) {
+import { useLocation } from "react-router-dom"
+
+function CharacterCard () {
+    const { state } = useLocation()
+    const character = state.character
 
     return (
         <div>
                 <div>
-                    <h3>{char.name}</h3>
-                    <h5>{char.character_class_type}</h5>
-                    <label>Character's History: <br/> {char.history}</label>
+                    <h3>{character.name}</h3>
+                    <h5>{character.character_class_type}</h5>
+                    <label>Character's History: <br/> {character.history}</label>
                     <p>Characters Stats: 
-                        <li>Constitution: {char.stats.constitution}</li>
-                        <li>Strength: {char.stats.strength}</li>
-                        <li>Dexterity: {char.stats.dexterity}</li>
-                        <li>Intelligence: {char.stats.intelligence}</li>
-                        <li>Charisma: {char.stats.charisma}</li>
-                        <li>Wisdom: {char.stats.wisdom}</li>
+                        <li>Constitution: {character.stats.constitution}</li>
+                        <li>Strength: {character.stats.strength}</li>
+                        <li>Dexterity: {character.stats.dexterity}</li>
+                        <li>Intelligence: {character.stats.intelligence}</li>
+                        <li>Charisma: {character.stats.charisma}</li>
+                        <li>Wisdom: {character.stats.wisdom}</li>
                     </p>
                 </div>
         </div>
