@@ -23,7 +23,7 @@ end
         # Get the name of the character class from the request parameters
         class_name = params[:character_class]
 
-        # Create a new instance of the character class based on the name
+        # Create a new instance of the character class based on the type
         character_class = case class_name
         when "Barbarian"
             Barbarian.create
@@ -52,7 +52,7 @@ end
         @character.save!
         
         # Render the new character in JSON format with a "created" status code 201
-        render json: @character, status: :created
+        render json: @character, status: 201
     end    
 
     # DELETE /characters/:id 

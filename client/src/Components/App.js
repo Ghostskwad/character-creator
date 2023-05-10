@@ -12,17 +12,40 @@ import CreateChars from "./CreateChars.js";
 // Parent component for the application
 function App() {
 
-   // state hook to store user data
-   const [user, setUser] = useState(null)
+  // state hooks to store characters and errors 
+  const [characters, setCharacters] = useState([])
+  const [errors, setErrors] = useState()
 
-   // useEffect hook to fetch user data on component mount using Axios API
-   useEffect(() => {
-       axios.get('/me').then(res => {
-         if (res.status === 200) {
-           setUser(res.data)
-         }
-       })      
-     }, [])
+  // state hook to store user data
+  const [user, setUser] = useState(null)
+
+  // useEffect hook to fetch user data on component mount using Axios API
+  useEffect(() => {
+      axios.get('/me').then(res => {
+        if (res.status === 200) {
+          setUser(res.data)
+        }
+      })      
+    }, [])
+
+  // useEffect hook to fetch user data on component mount using Axios API
+  useEffect(() => {
+    axios.get('/characters')
+        .then(res => {
+              if (res.status === 200) {
+                  setCharacters(res.data)
+              } else {
+                  setErrors(res.data.errors)
+              }
+          })
+          .catch(error => {
+              setErrors(error)
+          })
+  }, []) 
+
+  const createNewChar = (newCharacter) => {
+    setCharacters([...characters, newCharacter])
+}
 
   // HTTP request using Fetch API for comparison in process
   // useEffect(() => {
@@ -42,9 +65,9 @@ function App() {
         <Route path="/" element={<Home user={user} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp setUser={setUser} />} />
-        <Route path="/characters" element={<CharacterList />} />
+        <Route path="/characters" element={<CharacterList characters={characters} errors={errors} />} />
         <Route path="/:id/:name" element={<CharacterCard />} />
-        <Route path="/create_character" element={<CreateChars />} />
+        <Route path="/create_character" element={<CreateChars onSubmit={createNewChar} setErrors={setErrors} errors={errors} />} />
       </Routes>
     </div>
   );
