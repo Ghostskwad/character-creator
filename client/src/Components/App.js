@@ -11,38 +11,38 @@ import CreateChars from "./CreateChars.js";
 
 // Parent component for the application
 function App() {
+  // state hook to store user data
+  const [user, setUser] = useState(null)
 
   // state hooks to store characters and errors 
   const [characters, setCharacters] = useState([])
   const [errors, setErrors] = useState()
 
-  // state hook to store user data
-  const [user, setUser] = useState(null)
 
-  // useEffect hook to fetch user data on component mount using Axios API
+  // useEffect hook to fetch user data and characters on component mount using Axios API
   useEffect(() => {
-      axios.get('/me').then(res => {
-        if (res.status === 200) {
-          setUser(res.data)
-        }
-      })      
-    }, [])
+    axios.get('/me').then(res => {
+      if (res.status === 200) {
+        setUser(res.data)
 
-  // useEffect hook to fetch user data on component mount using Axios API
-  useEffect(() => {
-    axios.get('/characters')
-        .then(res => {
-              if (res.status === 200) {
-                  setCharacters(res.data)
-              } else {
-                  setErrors(res.data.errors)
-              }
-          })
-          .catch(error => {
-              setErrors(error)
-          })
+        axios.get('/characters')
+            .then(res => {
+                  if (res.status === 200) {
+                      setCharacters(res.data)
+                  } else {
+                      setErrors(res.data.errors)
+                  }
+              })
+              .catch(error => {
+                  setErrors(error)
+              })
+
+      }
+    }) 
+
   }, []) 
 
+  // function to handle a new character being added to the characters array, and having the array update in state
   const createNewChar = (newCharacter) => {
     setCharacters([...characters, newCharacter])
 }
