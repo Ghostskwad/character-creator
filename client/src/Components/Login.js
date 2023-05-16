@@ -31,7 +31,6 @@ function Login({ setUser }){
         setPassword("")
     }
     
-    
     const handleUsername = (e) => {
         setUsername(e.target.value)
     }
@@ -54,7 +53,7 @@ function Login({ setUser }){
                 />
                 <label htmlFor="password">Password</label>
                 <input 
-                    type="text"
+                    type="password"
                     name="password" 
                     placeholder="Password"
                     value={password}
