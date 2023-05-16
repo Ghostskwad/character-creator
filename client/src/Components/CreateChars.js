@@ -45,7 +45,6 @@ function CreateChars({ onSubmit, setErrors, errors }){
         setCharacterClass("Select A Class")
     }
 
-
     const handleCharacterClass = (e) => {
         setCharacterClass(e.target.value)
         }

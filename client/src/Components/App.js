@@ -36,10 +36,8 @@ function App() {
               .catch(error => {
                   setErrors(error)
               })
-
       }
     }) 
-
   }, []) 
 
   // function to handle a new character being added to the characters array, and having the array update in state
