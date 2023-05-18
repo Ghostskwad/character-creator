@@ -25,17 +25,6 @@ function App() {
       if (res.status === 200) {
         setUser(res.data)
 
-        axios.get('/characters')
-            .then(res => {
-                  if (res.status === 200) {
-                      setCharacters(res.data)
-                  } else {
-                      setErrors(res.data.errors)
-                  }
-              })
-              .catch(error => {
-                  setErrors(error)
-              })
       }
     }) 
   }, []) 
@@ -43,6 +32,11 @@ function App() {
   // function to handle a new character being added to the characters array, and having the array update in state
   const createNewChar = (newCharacter) => {
     setCharacters([...characters, newCharacter])
+}
+
+const handleCharDelete = (deletedCharacterId) => {
+  // update the state by removing the deleted character from the characters array
+  setCharacters(prevChars => prevChars.filter(character => character.id !== deletedCharacterId))
 }
 
   // HTTP request using Fetch API for comparison in process
@@ -61,10 +55,10 @@ function App() {
       <NavBar setUser={setUser} user={user} />
       <Routes>
         <Route path="/" element={<Home user={user} />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/login" element={<Login setUser={setUser} setCharacters={setCharacters} />} />
         <Route path="/signup" element={<SignUp setUser={setUser} />} />
         <Route path="/characters" element={<CharacterList characters={characters} errors={errors} />} />
-        <Route path="/:id/:name" element={<CharacterCard />} />
+        <Route path="/:id/:name" element={<CharacterCard onDelete={handleCharDelete} />} />
         <Route path="/create_character" element={<CreateChars onSubmit={createNewChar} setErrors={setErrors} errors={errors} />} />
       </Routes>
     </div>

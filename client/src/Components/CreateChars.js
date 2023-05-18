@@ -9,23 +9,13 @@ function CreateChars({ onSubmit, setErrors, errors }){
     const [characterClass, setCharacterClass] = useState("Select A Class")
 
     const navigate = useNavigate()
-    // const [formData, setFormData] = useState({
-    //     name: '',
-    //     history: '',
-    //     character_class: ''
-    // })
-
-    // const { name, history, character_class } = formData
-
-    // const handleChange = (e) => {
-    //     const key = e.target.value
-    //     console.log({...formData, [key]: e.target.value})
-    // }
 
     const handleNewCharForm = (e) => {
         e.preventDefault()
         axios.post('/characters', {
-            name, history, character_class: characterClass
+            name, 
+            history, 
+            character_class: characterClass
         })
         .then(res => {
             if (res.status === 201) { 
@@ -34,15 +24,12 @@ function CreateChars({ onSubmit, setErrors, errors }){
                 setErrors(res.data.errors)
             }
         })
-            .catch (error => {
-            error.message = "Please select a class."
-            setErrors(error.message)
+        .catch (error => {
+        error.message = "Please select a class."
+        setErrors(error.message)
         })
         navigate('/characters')
 
-        setName("")
-        setHistory("")
-        setCharacterClass("Select A Class")
     }
 
     const handleCharacterClass = (e) => {
