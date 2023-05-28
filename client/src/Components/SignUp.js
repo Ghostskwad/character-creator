@@ -1,53 +1,39 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-// import axios from 'axios'
+import axios from 'axios'
 
 function SignUp ({setUser}){
-    
+    // state to handle input fields
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+
+    // state to handle errors
     const [errors, setErrors] = useState()
-    
+
+    // useNavigate hook to handle programmatic navigation
     let navigate = useNavigate()
     
-//     const handleSubmit = (e) => {
-//         e.preventDefault()
+    // function to submit a new user to the database using a form
+    const handleSubmit = (e) => {
+        e.preventDefault()
         
-//         axios.post('/signup', {username: username, password: password}).then(res => {
-//             if (res.ok) {
-//                 res.json()
-//                 .then(user => setUser(user))
-//         }
-//     })
-//     navigate('/')   
-//     setUsername("")
-//     setPassword("")
-// }
-
-const handleSubmit = (e) => {
-    e.preventDefault()
-
-    fetch('/signup', {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({username: username, password: password})
+        axios.post('/signup', {username: username, password: password})
+        .then(res => {
+            if (res.status === 201) {
+                setUser(res.data)
+                navigate('/')   
+        } else {
+            setErrors(res.data.errors)
+        }
     })
-    .then(res => {
-        if (res.ok) {
-        res.json()
-        .then(user => setUser(user))
-        navigate('/')   
-    } else {
-        res.json()
-        .then(json => (json.errors).map(err => 
-            setErrors(err)
-        ))
-    }
-})
-setUsername("")
-setPassword("")
+    .catch(error => {
+        setErrors(error.response.data.errors)
+    })
+    setUsername("")
+    setPassword("")
 }
 
+    // functions to handle state changes to input fields
     const handleUsername = (e) =>{
         setUsername(e.target.value)
     }
@@ -73,14 +59,19 @@ setPassword("")
                     />
                     <label>Enter a new password</label>
                     <input 
-                        type="text"
+                        type="password"
                         name="password"
                         placeholder="Password"
                         value={password}
                         onChange={handlePassword}
                     />
                     <br />
-                    { errors ? <label className='errors'>{errors}</label> : null}
+                    {/* ternary to handle error messages if a user does not include a username or password */}
+                    { errors ? errors.map(err =>
+                        <div>
+                            <label className='errors'>{err}</label>
+                        </div>) 
+                    : null }
                     <br />
                     <button type="submit">Signup</button>
                 </form>
@@ -88,7 +79,6 @@ setPassword("")
         </div>
         
     )
-
 }
 
 export default SignUp

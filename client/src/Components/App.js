@@ -19,40 +19,41 @@ function App() {
   const [errors, setErrors] = useState()
 
 
-  // useEffect hook to fetch user data and characters on component mount using Axios API
+  // useEffect hook to fetch user data AND characters on component mount using Axios API
   useEffect(() => {
     axios.get('/me').then(res => {
       if (res.status === 200) {
         setUser(res.data)
-
+      
+        axios.get('/characters')
+        .then(res => {
+            if (res.status === 200 || res.status === 304) {
+                setCharacters(res.data)
+            } else {
+                setCharacters([])
+            }
+        })
+        .catch(error => {
+            setErrors(error.response.status)
+    })
       }
     }) 
-  }, []) 
+  }, [])
 
   // function to handle a new character being added to the characters array, and having the array update in state
   const createNewChar = (newCharacter) => {
     setCharacters([...characters, newCharacter])
 }
 
+// update the state by removing the deleted character from the characters array 
+// then pass down to Character Card
 const handleCharDelete = (deletedCharacterId) => {
-  // update the state by removing the deleted character from the characters array
   setCharacters(prevChars => prevChars.filter(character => character.id !== deletedCharacterId))
 }
 
-  // HTTP request using Fetch API for comparison in process
-  // useEffect(() => {
-  //   fetch('/me')
-  //   .then(res => {
-  //     if (res.ok) {
-  //       res.json()
-  //   .then((user) => setUser(user))
-  //     }
-  //   })      
-  // }, [])
-
   return (
     <div className="App">
-      <NavBar setUser={setUser} user={user} />
+      <NavBar setUser={setUser} user={user} setCharacters={setCharacters}/>
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="/login" element={<Login setUser={setUser} setCharacters={setCharacters} />} />

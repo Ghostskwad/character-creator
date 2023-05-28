@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 
-// moved the JSX that was previously on the CharacterList component
-// to its own for best practices
+// Displays preview of each character associated with user
 function CharPreview({ character }){
 
+    // useNavigate hook to handle programmatic navigation
     const navigate = useNavigate()
 
     // function to handle the click on a character and navigate to its details page
@@ -11,7 +11,6 @@ function CharPreview({ character }){
         navigate(`/${character.id}/${character.name}`, {state: {character}})
     }
 
-    // render the JSX that was previously in CharacterList 
     return(
     <div onClick={() => handleClick(character)}>
         <h1>{character.name}</h1>

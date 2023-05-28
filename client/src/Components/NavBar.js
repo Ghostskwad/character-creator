@@ -2,35 +2,25 @@ import React from "react"
 import {Link, useNavigate} from "react-router-dom"
 import axios from 'axios'
 
-function NavBar({ setUser, user }){
+// component that handles the display of all navigation links
+function NavBar({ setUser, user, setCharacters }){
     const navigate = useNavigate()
     
-    
+    // function to handle the logout for a user, clearing the user state AND characters associated with user state
+    // after logging out successfully, navigates to home page
     const handleLogout = () => {
         axios.delete('/logout').then(res => {
             if (res.status === 204) {
-                // console.log(user)
                 setUser(null)
+                setCharacters([])
             }
         })
         navigate('/')
     }
-    // console.log(user)
-    
-    // const handleLogout = () => {
-    //     fetch('/logout', {
-    //         method: 'DELETE'
-    //     })
-    //     .then(res => {
-    //         if (res.ok) {
-    //             setUser(null)
-    //         }
-    //     })
-    //     navigate('/')
-    // }
 
     return(
         <nav>
+            {/* ternary to handle which navigation links to display depending on if a user is logged in or not */}
                 {user ?
                 (<div className="nav">
                     <button className="nav" onClick={handleLogout}>Logout</button>
