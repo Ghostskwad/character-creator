@@ -9,7 +9,6 @@ function CharacterCard({ onDelete }) {
     const character = state.character
     
     // useNavigate to move back to the character preview component and trigger re-render
-    // which currently is not re-rendering
     const navigate = useNavigate()
     
     // Deletes the character card on a click event
@@ -30,6 +29,8 @@ function CharacterCard({ onDelete }) {
                 <div>
                     <h3>{character.name}</h3>
                     <h5>{character.character_class_type}</h5>
+                    {/* added an element for level, but needs to have a level key added to character */}
+                    <h5>Level: {character.level}</h5>
                     <label>Character's History: <br/> {character.history}</label>
                     <p>Character's Stats: 
                         <li>Constitution: {character.stats.constitution}</li>

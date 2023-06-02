@@ -12,11 +12,6 @@ function CharacterList({ characters, errors }) {
         (character) => (
             <CharPreview key={character.id} character={character}/>
         ))
-        
-    // // function to handle the click on a character and navigate to its details page
-    // const handleClick = (character) => {
-    //     navigate(`/${character.id}/${character.name}`, {state: {character}})
-    // }
 
     // function to handle navigation to CreateChars component (the form)
     const navigateToCreate = () => {
@@ -25,15 +20,14 @@ function CharacterList({ characters, errors }) {
 
     return(
         <div>
+            <h1>My Profile</h1>
             { errors ?
                 <div>
-                    <h1>My Profile</h1>
                     <h2>Whoops! You don't have any characters yet!</h2>
                     <button onClick={navigateToCreate}>Create a new character!</button>
                 </div>
                 :
                 ( <div>
-                    <h1>My Profile</h1>
                     {displayChars}
                     <button onClick={navigateToCreate}>Create a new character!</button>
                 </div> )

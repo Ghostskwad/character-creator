@@ -2,14 +2,18 @@ import {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+// component that handles form to create a new character
 function CreateChars({ onSubmit, setErrors, errors }){
 
+    // state for each input on form
     const [name, setName] = useState("")
     const [history, setHistory] = useState("")
     const [characterClass, setCharacterClass] = useState("Select A Class")
 
+    // useNavigate hook to handle programmatic navigation
     const navigate = useNavigate()
 
+    // function handling post request and any error handling
     const handleNewCharForm = (e) => {
         e.preventDefault()
         axios.post('/characters', {
@@ -20,6 +24,7 @@ function CreateChars({ onSubmit, setErrors, errors }){
         .then(res => {
             if (res.status === 201) { 
                 onSubmit(res.data)
+                navigate('/characters')
             } else {
                 setErrors(res.data.errors)
             }
@@ -28,10 +33,9 @@ function CreateChars({ onSubmit, setErrors, errors }){
         error.message = "Please select a class."
         setErrors(error.message)
         })
-        navigate('/characters')
-
     }
 
+    //function to handle the state change of the class dropdown
     const handleCharacterClass = (e) => {
         setCharacterClass(e.target.value)
         }
