@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :clerics
   resources :barbarians
   resources :bards
-  resources :characters, only: %i[index create destroy]
+  resources :characters
   
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"

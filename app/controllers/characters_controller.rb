@@ -1,20 +1,20 @@
 class CharactersController < ApplicationController
-    before_action :set_character, only: [:destroy]
+    before_action :set_character, only: [:update, :destroy]
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
     # GET /characters
     def index
         # Get all characters belonging to the current user
-        @character = @current_user.characters
+        @characters = @current_user.characters
 
         # Checks to see if a character exists with the current user
-        if @character.blank? === true
+        if @characters.blank? === true
             # If no character exists, return the render_not_found message
             render_not_found_response
         else
         # Render the characters in JSON format with a "ok" status code 200
-        render json: @character, status: :ok
+        render json: @characters, status: :ok
     end
 end
 
@@ -53,7 +53,13 @@ end
         
         # Render the new character in JSON format with a "created" status code 201
         render json: @character, status: 201
-    end    
+    end 
+    
+    # PATCH/PUT /activities/1
+    def update
+        @character.update!(character_params)
+        render json: @character, status: :accepted
+    end
 
     # DELETE /characters/:id 
     def destroy 
