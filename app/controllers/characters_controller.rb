@@ -52,12 +52,12 @@ end
         @character.save!
         
         # Render the new character in JSON format with a "created" status code 201
-        render json: @character, status: 201
+        render json: @character, status: :created
     end 
     
-    # PATCH/PUT /activities/1
+    # PATCH/PUT /characters/:id
     def update
-        @character.update!(character_params)
+        @character.character_class.update!(character_class_params)
         render json: @character, status: :accepted
     end
 
@@ -81,7 +81,10 @@ end
     def character_params
         params.permit(:name, :history)
     end
-
+    
+    def character_class_params
+        params.require(:stats).permit(:constitution, :strength, :intelligence, :charisma, :wisdom, :dexterity)
+      end
     # Error handling callback methods
     def render_unprocessable_entity_response(invalid)
         render json: { errors: invalid.record.errors }, status: :unprocessable_entity

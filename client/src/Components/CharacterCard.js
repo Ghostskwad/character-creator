@@ -1,106 +1,91 @@
-import { useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import axios from 'axios'
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from 'axios';
+import Stats from "./Stats";
 
-// component that renders the details of a single character
 function CharacterCard({ onDelete }) {
-    const [editable, setEditable] = useState(false)
-    const [points, setPoints] = useState(0)
+    const { state } = useLocation();
+    const [editable, setEditable] = useState(false);
+    const [points, setPoints] = useState(0);
+    const [originalPoints, setOriginalPoints] = useState(0);
+    const [editableStats, setEditableStats] = useState({});
+    const [character, setCharacter] = useState(state.character)
+    const navigate = useNavigate();
 
-    // useLocation hook to access the state passed in from CharacterList component and save it to a variable
-    const { state } = useLocation()
-    const character = state.character
-    
-    // useNavigate to move back to the character preview component and trigger re-render
-    const navigate = useNavigate()
-    
-    // Deletes the character card on a click event
-    const handleDelete = () => {
+    useEffect(() => {
+        setEditableStats({ ...character.stats });
+    }, [character]);
 
-        axios.delete(`/characters/${character.id}`)
-            .then(() => {
-                onDelete(character.id)
-            })
-            .catch((error) => {
-                console.error('Error deleting character:', error)
-            })
-        navigate('/characters')
-    }
-
-    const handleSubtract = (stat) => {
-        if (points < 30 && character.stats[stat] > 0) {
-            setPoints(points + 1)
-            console.log(points)
-            character.stats[stat] = character.stats[stat] - 1
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`/characters/${character.id}`);
+            onDelete(character.id);
+            navigate('/characters');
+        } catch (error) {
+            console.error('Error deleting character:', error);
         }
-    }
+    };
 
-    const handleAdd = (stat) => {
-        if (points > 0) {
-            setPoints(points - 1)
-            character.stats[stat] = character.stats[stat] + 1
+    const updateCharacterStats = (stat, operation) => {
+        // create a copy of the editableStats
+        const newStats = { ...editableStats };
+
+        if (operation === "subtract" && points < 30 && newStats[stat] > 0) {
+            setPoints(prevPoints => prevPoints + 1);
+            newStats[stat]--;
         }
-    }
+        if (operation === "add" && points > 0) {
+            setPoints(prevPoints => prevPoints - 1);
+            newStats[stat]++;
+        }
+        setEditableStats(newStats);
+    };
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         if (points === 0) {
-            axios.patch(`/characters/${character.id}`, { stats: character.stats })
+            await axios.patch(`/characters/${character.id}`, { stats: editableStats });
+            setCharacter(prevCharacter => ({
+                ...prevCharacter,
+                stats: { ...editableStats }
+            }));
+            toggleEditable()
         } else {
-            alert("Please spend the rest of your points.")
+            alert("Please spend the rest of your points.");
         }
-    }
+    };
 
-    const handleEditable = () => {
-        setEditable(!editable)
-    }
-
-    console.log(character)
-
-    const stats = Object.keys(character.stats).map((stat) => (
-        <li key={stat}>
-          {stat.charAt(0).toUpperCase() + stat.slice(1)}: {character.stats[stat]}
-        </li>
-      ))
-
-      const updateStats = Object.keys(character.stats).map((stat) => (
-        <li key={stat}>
-          {stat.charAt(0).toUpperCase() + stat.slice(1)}: {character.stats[stat]}
-            <button onClick={() => handleSubtract(stat)} disabled={points === 30 || character.stats[stat] === 0}>
-            Subtract
-            </button>
-            <button onClick={() => handleAdd(stat)} disabled={points === 0}>
-            Add
-            </button>
-        </li>
-      ))
-
+    const toggleEditable = () => {
+        if (editable) {
+            setEditableStats({ ...character.stats });
+            setPoints(originalPoints);
+        } else {
+            setOriginalPoints(points);
+        }
+        setEditable(prevEditable => !prevEditable);
+    };
 
     return (
         <div>
-                <div>
-                    <h3>{character.name}</h3>
-                    <h5>{character.character_class_type}</h5>
-                    {/* added an element for level, but needs to have a level key added to character */}
-                    <h5>Level: {character.level}</h5>
-                    <label>Character's History: <br/> {character.history}</label>
-                    <p>Character's Stats: 
-                        <li>Level: {character.level} </li>
-                        {editable ? 
-                        <div>
-                            {updateStats}
-                            <button onClick={handleUpdate}>{`Update ${character.name}`}</button>
+            <div>
+            <h2>{character.name}</h2>
+                <h3>{character.character_class_type}</h3>
+                <h4>Level: {character.level}</h4>
+                <label>Character's History:</label>
+                <p>{character.history}</p>
+                <h4>Character's Stats: 
+                    {editable ? 
+                        <>
+                            <Stats stats={editableStats} points={points} updateCharacterStats={updateCharacterStats} isEditable={true} />
+                            <button onClick={handleUpdate}>Update {character.name}</button>
                             <p>Available Points: {points}</p>
-                        </div> : 
-                        <div>
-                            {stats}
-                        </div>}
-                    </p>
-                    <button onClick={handleEditable}>{editable ? "Cancel" : `Edit ${character.name}`}</button>
-                    <button onClick={handleDelete}>{`Delete ${character.name}`}</button>
-                </div>
+                        </> : 
+                        <Stats stats={character.stats} isEditable={false} />}
+                </h4>
+                <button onClick={toggleEditable}>{editable ? "Cancel" : `Edit ${character.name}`}</button>
+                <button onClick={handleDelete}>Delete {character.name}</button>
+            </div>
         </div>
-    )
+    );
 }
 
-// export the CharacterCard component as default
-export default CharacterCard
+export default CharacterCard;
