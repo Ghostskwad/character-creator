@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router";
 import axios from "axios";
-import NavBar from "./NavBar.js"
-import Home from "./Home.js"
-import Login from "./Login.js"
-import SignUp from "./SignUp.js"
-import CharacterList from "./CharacterList.js"
-import CharacterCard from "./CharacterCard.js";
-import CreateChars from "./CreateChars.js";
+import NavBar from "./NavBar"
+import Home from "./Home"
+import Login from "./Login"
+import SignUp from "./SignUp"
+import CharacterList from "./CharacterList"
+import CharacterCard from "./CharacterCard";
+import CreateChars from "./CreateChars";
 
 // Parent component for the application
 function App() {
