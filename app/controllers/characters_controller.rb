@@ -1,5 +1,5 @@
 class CharactersController < ApplicationController
-    before_action :set_character, only: [:update, :destroy]
+    before_action :set_character, only: [:show, :update, :destroy]
     rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity_response
     rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
@@ -16,6 +16,10 @@ class CharactersController < ApplicationController
         # Render the characters in JSON format with a "ok" status code 200
         render json: @characters, status: :ok
     end
+end
+
+def show
+    render json: @character, status: :ok 
 end
 
     # POST /characters
