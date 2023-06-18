@@ -4,17 +4,25 @@ import axios from 'axios';
 import Stats from "./Stats";
 
 function CharacterCard({ onDelete }) {
-    const { state } = useLocation();
+    const { state: { character } } = useLocation();
     const [editable, setEditable] = useState(false);
     const [points, setPoints] = useState(0);
     const [originalPoints, setOriginalPoints] = useState(0);
     const [editableStats, setEditableStats] = useState({});
-    const [character, setCharacter] = useState(state.character)
     const navigate = useNavigate();
 
     useEffect(() => {
-        setEditableStats({ ...character.stats });
-    }, [character]);
+        const fetchCharacterStats = async () => {
+          try {
+            const {data: { stats }} = await axios.get(`/characters/${character.id}`);
+            setEditableStats({...stats});
+          } catch (error) {
+            console.error('Error fetching character stats:', error);
+          }
+        };
+      
+        fetchCharacterStats();
+      }, [character]);
 
     const handleDelete = async () => {
         try {
@@ -43,12 +51,13 @@ function CharacterCard({ onDelete }) {
 
     const handleUpdate = async () => {
         if (points === 0) {
-            await axios.patch(`/characters/${character.id}`, { stats: editableStats });
-            setCharacter(prevCharacter => ({
-                ...prevCharacter,
-                stats: { ...editableStats }
-            }));
-            toggleEditable()
+            try {
+                const { data: { stats }} = await axios.patch(`/characters/${character.id}`, { stats: editableStats });
+                setEditableStats({...stats})
+                setEditable(false)
+            } catch (error) {
+                console.error(error)
+            }
         } else {
             alert("Please spend the rest of your points.");
         }
@@ -79,7 +88,7 @@ function CharacterCard({ onDelete }) {
                             <button onClick={handleUpdate}>Update {character.name}</button>
                             <p>Available Points: {points}</p>
                         </> : 
-                        <Stats stats={character.stats} isEditable={false} />}
+                        <Stats stats={editableStats} isEditable={false} />}
                 </h4>
                 <button onClick={toggleEditable}>{editable ? "Cancel" : `Edit ${character.name}`}</button>
                 <button onClick={handleDelete}>Delete {character.name}</button>
