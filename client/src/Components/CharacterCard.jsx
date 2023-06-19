@@ -17,7 +17,7 @@ function CharacterCard({ onDelete }) {
             const {data: { stats }} = await axios.get(`/characters/${character.id}`);
             setEditableStats({...stats});
           } catch (error) {
-            console.error('Error fetching character stats:', error);
+            console.error('Error fetching character stats:', error.response);
           }
         };
       
@@ -30,7 +30,7 @@ function CharacterCard({ onDelete }) {
             onDelete(character.id);
             navigate('/characters');
         } catch (error) {
-            console.error('Error deleting character:', error);
+            console.error('Error deleting character:', error.response);
         }
     };
 
@@ -85,8 +85,8 @@ function CharacterCard({ onDelete }) {
                     {editable ? 
                         <>
                             <Stats stats={editableStats} points={points} updateCharacterStats={updateCharacterStats} isEditable={true} />
-                            <button onClick={handleUpdate}>Update {character.name}</button>
                             <p>Available Points: {points}</p>
+                            <button onClick={handleUpdate}>Update {character.name}</button>
                         </> : 
                         <Stats stats={editableStats} isEditable={false} />}
                 </h4>
